@@ -74,10 +74,12 @@ class DockerImageChooserSpawner(DockerSpawner):
         self.container_prefix = self.user_options['container_prefix']
 
         # start the container
-        yield DockerSpawner.start(
+        ret = yield DockerSpawner.start(
             self, image=self.user_options['container_image'],
             extra_create_kwargs=extra_create_kwargs,
             extra_host_config=extra_host_config)
-    
+        self.log.info('Started service at %s:%d' % ret)
+        return ret
+
 # http://jupyter.readthedocs.io/en/latest/development_guide/coding_style.html
 # vim: set ai et ts=4 sw=4:
